@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="static/products.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+
+<body>
+    <div class="nav_bar">
+        <div class="nav_links" id="nav-links">
+            <button>Login</button>
+            <button>Sign Up</button>
+        </div>
+    </div>
+
+    <div class="side_menu">
+        <button onclick="window.location.href='https://rsofianuinventoryapp.pythonanywhere.com'"><i
+                class="fas fa-home"></i> Acasa</button>
+        <button onclick="window.location.href='https://rsofianuinventoryapp.pythonanywhere.com/products'"><i
+                class="fas fa-cubes"></i> Produse</button>
+        <button><i class="fas fa-chart-bar"></i> Date firma</button>
+        <button><i class="fas fa-truck"></i> Furnizori</button>
+        <button><i class="fas fa-cog"></i> Setari</button>
+    </div>
+
+    <div class="home_container">
+        <div class="table_name">
+            <h1>Products</h1>
+        </div>
+
+        <!-- <div class="summary">
+            <div class="summary-chart">
+                <div class="chart-legend-wrap">
+                    <h1>Cei mai importanți furnizori</h1>
+                    <div class="chart-legend-row">
+                        <canvas id="providersChart"></canvas>
+                        <div class="chart-legend" id="providersLegend"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="summary-chart">
+                <div class="chart-legend-wrap">
+                    <h1>Top produse</h1>
+                    <div class="chart-legend-row">
+                        <canvas id="productsChart"></canvas>
+                        <div class="chart-legend" id="productsLegend"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="summary-chart">
+                <div class="chart-legend-wrap">
+                    <h1>Total vânzări</h1>
+                    <div class="chart-legend-row">
+                        <canvas id="salesChart"></canvas>
+                        <div class="chart-legend" id="salesLegend"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="summary-chart">
+                <div class="chart-legend-wrap">
+                    <h1>Total cheltuieli</h1>
+                    <div class="chart-legend-row">
+                        <canvas id="purchasesChart"></canvas>
+                        <div class="chart-legend" id="purchasesLegend"></div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="table_container">
+            <div class="table_header">
+                <div class="filter">
+                    <input type="text" placeholder="Cauta dupa parametru..." id="filter_input">
+                    <button>Search</button>
+                </div>
+                <button class="right-action" onclick="window.location.href='../createNIR/createNIR.html'">
+                    <i class="fas fa-plus"></i> Adauga produs
+                </button>
+            </div>
+
+            <table>
+                <tr>
+                    <th>Produs</th>
+                    <th>TVA</th>
+                    <th>Unitate</th>
+                    <th>Pret Furnizor</th>
+                    <th>Pret Vanzare</th>
+                    <th>Total articole</th>
+                </tr>
+                <!-- Table rows will be populated by JS -->
+            </table>
+            <div class="table_controls">
+                <span id="total_items">Total Items: 0</span>
+                <div class="rows_per_page">
+                    <label for="rows_per_page">Rows per page:</label>
+                    <select id="rows_per_page">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="50                        python3 -m http.server 8080">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Chart.js at the end of <body> if not already present -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const chartConfigs = [
+            {
+                canvasId: 'providersChart',
+                legendId: 'providersLegend',
+                title: 'Cei mai importanți furnizori'
+            },
+            {
+                canvasId: 'productsChart',
+                legendId: 'productsLegend',
+                title: 'Top produse'
+            },
+            {
+                canvasId: 'salesChart',
+                legendId: 'salesLegend',
+                title: 'Total vânzări'
+            },
+            {
+                canvasId: 'purchasesChart',
+                legendId: 'purchasesLegend',
+                title: 'Total cheltuieli'
+            }
+        ];
+
+        // Plugin for center text
+        const centerTextPlugin = {
+            id: 'centerText',
+            afterDraw(chart) {
+                if (chart.config.options.elements && chart.config.options.elements.center) {
+                    const ctx = chart.ctx;
+                    const centerConfig = chart.config.options.elements.center;
+                    ctx.save();
+                    ctx.font = `${centerConfig.fontSize || 24}px ${centerConfig.fontFamily || 'Arial'}`;
+                    ctx.fillStyle = centerConfig.fontColor || '#fff';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    const centerX = (chart.chartArea.left + chart.chartArea.right) / 2;
+                    const centerY = (chart.chartArea.top + chart.chartArea.bottom) / 2;
+                    ctx.fillText(centerConfig.text, centerX, centerY);
+                    ctx.restore();
+                }
+            }
+        };
+        if (window.Chart) Chart.register(centerTextPlugin);
+
+        fetch('http://192.168.0.164:8081/home/summary')
+            .then(res => res.json())
+            .then(data => {
+                // Map API response to chartConfigs
+                const apiMap = [
+                    { key: 'providers', labelKey: 'unit', dataKey: 'total' },
+                    { key: 'products', labelKey: 'unit', dataKey: 'total' },
+                    { key: 'sales', labelKey: 'unit', dataKey: 'total' },
+                    { key: 'purchases', labelKey: 'unit', dataKey: 'total' }
+                ];
+
+                chartConfigs.forEach((cfg, idx) => {
+                    const api = data[apiMap[idx].key];
+                    const labels = api.unit;
+                    const values = api.total;
+                    // Generate colors if not present
+                    const colors = [
+                        '#ff6a5e', '#ff9a44', '#2c5364', '#6a82fb', '#4dd599', '#f7b731', '#8854d0', '#20bf6b'
+                    ].slice(0, labels.length);
+
+                    const total = values.reduce((a, b) => a + b, 0);
+
+                    new Chart(document.getElementById(cfg.canvasId), {
+                        type: 'doughnut',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                data: values,
+                                backgroundColor: colors
+                            }]
+                        },
+                        options: {
+                            plugins: { legend: { display: false } },
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            cutout: '70%',
+                            elements: {
+                                center: {
+                                    text: total.toString(),
+                                    fontColor: '#fff',
+                                    fontSize: 24
+                                }
+                            }
+                        }
+                    });
+
+                    // Custom legend
+                    const legendContainer = document.getElementById(cfg.legendId);
+                    legendContainer.innerHTML = '';
+                    labels.forEach((label, i) => {
+                        const color = colors[i];
+                        const value = values[i];
+                        const item = document.createElement('div');
+                        item.className = 'chart-legend-item';
+                        item.innerHTML = `<span class="chart-legend-color" style="background:${color}"></span>${label} (${value})`;
+                        legendContainer.appendChild(item);
+                    });
+                });
+            })
+            .catch(err => {
+                console.error('Failed to fetch summary data:', err);
+            });
+
+        // Table population from products API (POST)
+        function fetchProducts(rowsPerPage = 10) {
+            fetch('https://inv-app-microserv.onrender.com/products/details', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ rowsPerPage: rowsPerPage })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    const products = data.products || [];
+                    const table = document.querySelector('.table_container table');
+                    // Remove all rows except the header
+                    while (table.rows.length > 1) {
+                        table.deleteRow(1);
+                    }
+                    // Add new rows from API data
+                    products.forEach(row => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                        <td>
+                            <span class="product-link" onclick="openDrawer(&quot;${encodeURIComponent(row.product)}&quot;)">
+                                ${row.product}
+                            </span>
+                        </td>
+                        <td>${row.TVA}</td>
+                        <td>${row.unit}</td>
+                        <td>${row.providerPrice}</td>
+                        <td>${row.sellingPrice}</td>
+                        <td>${row.productCount}</td>
+                    `;
+                        table.appendChild(tr);
+                    });
+                    // Update total items
+                    const totalItems = document.getElementById('total_items');
+                    if (totalItems) totalItems.textContent = `Total Items: ${products.length}`;
+                })
+                .catch(err => {
+                    console.error('Failed to fetch products data:', err);
+                });
+        }
+
+        // Initial fetch
+        fetchProducts(10);
+
+        // Update table when rows per page changes
+        document.getElementById('rows_per_page').addEventListener('change', function () {
+            fetchProducts(Number(this.value));
+        });
+
+        function openDrawer(productName) {
+            const drawer = document.getElementById('productDrawer');
+            const content = document.getElementById('drawerContent');
+            content.innerHTML = `<p>Loading...</p>`;
+            drawer.classList.add('open');
+
+            fetch(`https://inv-app-microserv.onrender.com/products/drawer?productName=${encodeURIComponent(productName)}`)
+                .then(res => res.json())
+                .then(data => {
+                    let imgHtml = '';
+                    if (data.productImage) {
+                        imgHtml = `<img class="drawer-product-img" src="${data.productImage}" alt="${productName}">`;
+                    }
+                    let detailsHtml = '';
+                    if (data.productDetails && data.productDetails.length > 0) {
+                        const d = data.productDetails[0];
+                        detailsHtml = `
+                            <ul class="drawer-details-list">
+                                <li><strong>Produs:</strong> <span id="drawer-product">${d.product}</span></li>
+                                <li><strong>TVA:</strong> ${d.TVA}</li>
+                                <li><strong>Unitate:</strong> ${d.unit}</li>
+                                <li><strong>Pret Furnizor:</strong> ${d.providerPrice}</li>
+                                <li><strong>Pret Vanzare:</strong> ${d.sellingPrice}</li>
+                                <li><strong>Stoc:</strong> ${d.productCount}</li>
+                            </ul>
+                        `;
+                    } else {
+                        detailsHtml = `<p>Detalii produs indisponibile.</p>`;
+                    }
+                    content.innerHTML = `
+                        <h2>Detalii produs</h2>
+                        ${imgHtml}
+                        ${detailsHtml}
+                    `;
+                })
+                .catch(() => {
+                    content.innerHTML = `<p>Eroare la încărcarea detaliilor produsului.</p>`;
+                });
+        }
+        function closeDrawer() {
+            document.getElementById('productDrawer').classList.remove('open');
+        }
+    </script>
+
+    <script>
+        let currentPage = 1;
+        let totalPages = 1;
+        let rowsPerPage = 10;
+        let totalProducts = 0;
+
+        function fetchProducts(page = 1) {
+            rowsPerPage = Number(document.getElementById('rows_per_page').value);
+            const offset = (page - 1) * rowsPerPage;
+
+            fetch('https://inv-app-microserv.onrender.com/products/details', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ rowsPerPage: rowsPerPage, offset: offset })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    const products = data.products || [];
+                    totalProducts = data.totalProducts || products.length;
+                    totalPages = Math.ceil(totalProducts / rowsPerPage);
+
+                    const table = document.querySelector('.table_container table');
+                    while (table.rows.length > 1) table.deleteRow(1);
+
+                    products.forEach(row => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                        <td>
+                            <span class="product-link" onclick="openDrawer(&quot;${encodeURIComponent(row.product)}&quot;)">
+                                ${row.product}
+                            </span>
+                        </td>
+                        <td>${row.TVA}</td>
+                        <td>${row.unit}</td>
+                        <td>${row.providerPrice}</td>
+                        <td>${row.sellingPrice}</td>
+                        <td>${row.productCount}</td>
+                    `;
+                        table.appendChild(tr);
+                    });
+
+                    document.getElementById('total_items').textContent = `Total Items: ${totalProducts}`;
+                    renderPagination();
+                })
+                .catch(err => {
+                    console.error('Failed to fetch products data:', err);
+                });
+        }
+
+        function renderPagination() {
+            let pagination = document.getElementById('pagination');
+            if (!pagination) {
+                pagination = document.createElement('div');
+                pagination.id = 'pagination';
+                pagination.style.margin = '16px 0';
+                pagination.style.textAlign = 'center';
+                document.querySelector('.table_container').appendChild(pagination);
+            }
+            pagination.innerHTML = '';
+
+            if (totalPages <= 1) return;
+
+            // Left arrow
+            if (currentPage > 1) {
+                const prevBtn = document.createElement('button');
+                prevBtn.textContent = '<';
+                prevBtn.onclick = () => {
+                    currentPage -= 1;
+                    fetchProducts(currentPage);
+                };
+                pagination.appendChild(prevBtn);
+            }
+
+            // First page
+            const firstBtn = document.createElement('button');
+            firstBtn.textContent = '1';
+            if (currentPage === 1) {
+                firstBtn.className = 'active-page';
+                firstBtn.disabled = true;
+            } else {
+                firstBtn.onclick = () => {
+                    currentPage = 1;
+                    fetchProducts(currentPage);
+                };
+            }
+            pagination.appendChild(firstBtn);
+
+            // Show next 4 pages after current page (if available)
+            let start = Math.max(2, currentPage);
+            let end = Math.min(currentPage + 4, totalPages - 1);
+
+            for (let i = start; i <= end; i++) {
+                const btn = document.createElement('button');
+                btn.textContent = i;
+                if (i === currentPage) {
+                    btn.className = 'active-page';
+                    btn.disabled = true;
+                } else {
+                    btn.onclick = () => {
+                        currentPage = i;
+                        fetchProducts(currentPage);
+                    };
+                }
+                pagination.appendChild(btn);
+            }
+
+            // Show ... if needed after current window
+            if (end < totalPages - 1) {
+                const dots = document.createElement('span');
+                dots.textContent = ' ... ';
+                pagination.appendChild(dots);
+            }
+
+            // Always show last page if more than one page and not already shown
+            if (totalPages > 1 && end < totalPages) {
+                const lastBtn = document.createElement('button');
+                lastBtn.textContent = totalPages;
+                if (currentPage === totalPages) {
+                    lastBtn.className = 'active-page';
+                    lastBtn.disabled = true;
+                } else {
+                    lastBtn.onclick = () => {
+                        currentPage = totalPages;
+                        fetchProducts(currentPage);
+                    };
+                }
+                pagination.appendChild(lastBtn);
+            }
+
+            // Right arrow
+            if (currentPage < totalPages) {
+                const nextBtn = document.createElement('button');
+                nextBtn.textContent = '>';
+                nextBtn.onclick = () => {
+                    currentPage += 1;
+                    fetchProducts(currentPage);
+                };
+                pagination.appendChild(nextBtn);
+            }
+        }
+
+        // Initial fetch
+        fetchProducts(1);
+
+        // Update table when rows per page changes
+        document.getElementById('rows_per_page').addEventListener('change', function () {
+            currentPage = 1;
+            fetchProducts(currentPage);
+        });
+    </script>
+
+    <div id="productDrawer" class="drawer">
+        <button class="drawer-close" onclick="closeDrawer()">&times;</button>
+        <div id="drawerContent"></div>
+    </div>
+</body>
+
+</html>

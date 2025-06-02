@@ -1,0 +1,32 @@
+[
+    {
+        "nirDetails": {
+            "adress": "asd",
+            "company": "asd",
+            "delegat": "12121",
+            "invoice_date": "1212-12-12",
+            "invoice_number": "12212",
+            "nir_date": "1212-12-12",
+            "nir_number": "1",
+            "provider": "121221"
+        }
+    },
+    {
+        "product": {
+            "amount": 0,
+            "product": ""
+        }
+    },
+    {
+        "product": {
+            "amount": "50",
+            "product": "test1"
+        }
+    },
+    {
+        "product": {
+            "amount": "50",
+            "product": "test1"
+        }
+    }
+]

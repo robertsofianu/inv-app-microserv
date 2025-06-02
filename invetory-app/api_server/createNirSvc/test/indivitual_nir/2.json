@@ -1,0 +1,20 @@
+[
+    {
+        "nirDetails": {
+            "adress": "Test Address",
+            "company": "Test Company",
+            "delegat": "Test Delegat",
+            "invoice_date": "2025-05-24",
+            "invoice_number": "INV-001",
+            "nir_date": "2025-05-24",
+            "nir_number": "2",
+            "provider": "Test Provider"
+        }
+    },
+    {
+        "product": {
+            "amount": "50",
+            "product": "test1"
+        }
+    }
+]

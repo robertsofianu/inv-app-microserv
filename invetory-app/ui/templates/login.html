@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Album API</title>
+    <link rel="stylesheet" href="login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+
+    <div class="login_form">
+        <h1 id="welcomeMessage">Welcome to Golum</h1>
+
+        <!-- Version Information -->
+        <p class="version">Version 1.0.0</p>
+
+        <!-- Login Form -->
+        <form id="loginForm">
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username" required><br><br>
+
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password" required><br><br>
+
+            <button type="submit">Log in</button>
+        </form>
+
+        <!-- Sign Up Redirect Button -->
+        <p>Don't have an account?</p>
+        <button id="signUpButton" type="button" onclick="redirectToSignUp()">Sign Up</button>
+    </div>
+
+    <!-- Watermark -->
+    <div class="watermark">
+        Golum App © 2023
+    </div>
+
+    <script>
+        const apiUrl = 'http://localhost:8080';
+        
+        // Fetch app info and populate version and app name dynamically
+        async function fetchAppInfo() {
+            try {
+                const response = await fetch(`${apiUrl}/appInfo`, {
+                    method: 'GET'
+                });
+
+                if (response.ok) {
+                    const appInfo = await response.json();
+                    document.getElementById('welcomeMessage').textContent = `Welcome to ${appInfo.appName}`;
+                    document.querySelector('.version').textContent = `Version ${appInfo.appVersion}`;
+                } else {
+                    console.error('Failed to fetch app info.');
+                }
+            } catch (error) {
+                console.error('Error fetching app info:', error);
+            }
+        }
+
+        // Call fetchAppInfo on page load
+        window.onload = fetchAppInfo;
+
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const credentials = { username, password };
+
+            try {
+                const response = await fetch(`${apiUrl}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(credentials)
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log("Logged in successfully!");
+                    window.location.href = 'home.html'; // Redirect to the home page
+                } else {
+                    const error = await response.json();
+                    alert(error.error); // Show error message
+                }
+            } catch (error) {
+                console.error('Error logging in:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+
+        // Function to redirect to the Sign-Up page
+        function redirectToSignUp() {
+            window.location.href = 'signup.html'; // Change 'signup.html' to the actual Sign-Up page path
+        }
+    </script>
+</body>
+
+</html>

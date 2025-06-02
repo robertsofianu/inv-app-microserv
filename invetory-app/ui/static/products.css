@@ -1,0 +1,713 @@
+/* General body styles */
+body {
+    background: #222;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.input-group {
+    margin-bottom: 1rem;
+}
+
+.input-group label {
+    margin-bottom: 0.5rem;
+    color: #555;
+    font-weight: bold;
+}
+
+.input-group input {
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background-color: #1e1e2f;
+    /* Dark input background */
+    color: #e0e0e0;
+    /* Light text */
+    width: 100%;
+    /* Full-width input */
+    transition: border-color 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #333;
+    /* Highlight border on focus */
+    outline: none;
+    /* Remove default focus outline */
+}
+
+/* Button styles */
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    /* Dark button background */
+    color: #e0e0e0;
+    /* Light text */
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button:hover {
+    background-color: #555;
+    /* Slightly lighter on hover */
+    color: #fff;
+    /* Brighten text on hover */
+}
+
+.footer-text {
+    text-align: center;
+    margin-top: 1rem;
+    color: #444;
+    /* Subtle text color */
+}
+
+.footer-text a {
+    color: #333;
+    text-decoration: none;
+}
+
+.footer-text a:hover {
+    text-decoration: underline;
+    /* Underline link on hover */
+}
+
+/* Navigation bar styles */
+.nav_bar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: flex-end;
+    /* Align buttons to the right */
+    align-items: center;
+    padding: 0 20px;
+    /* Add padding for spacing */
+    z-index: 10;
+    /* Ensure it stays above other elements */
+}
+
+/* Navigation bar button styles */
+.nav_bar button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #444;
+    /* Dark button background */
+    color: #e0e0e0;
+    /* Light text */
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav_bar button:hover {
+    background-color: #555;
+    /* Slightly lighter on hover */
+    color: #fff;
+    /* Brighten text on hover */
+}
+
+/* Responsive nav bar */
+@media (max-width: 600px) {
+    .nav_links {
+        display: none;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        background: #222;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        flex-direction: column;
+        padding: 10px 0;
+        min-width: 120px;
+        z-index: 15;
+    }
+
+    .nav_links.show {
+        display: flex;
+    }
+
+    .nav_bar {
+        justify-content: flex-end;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .nav_links button {
+        margin: 10px 20px;
+        width: auto;
+    }
+}
+
+.table_container {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    background-color: #444;
+    /* Dark background for the table container */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+    width: 90%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    /* Remove gaps between table cells */
+    margin: 20px 0;
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+    background-color: #222;
+    /* Dark table background */
+    color: #e0e0e0;
+    /* Light text for contrast */
+    border-radius: 10px;
+    /* Rounded corners */
+    overflow: hidden;
+    /* Ensure rounded corners apply to the entire table */
+}
+
+th,
+td {
+    padding: 12px 15px;
+    /* Add padding for better spacing */
+    text-align: left;
+    /* Align text to the left */
+}
+
+/* Table heading styles */
+th {
+    background-color: #222;
+    /* Dark background for table headers */
+    color: #e0e0e0;
+    /* Light text for contrast */
+    font-weight: bold;
+    text-transform: uppercase;
+    /* Uppercase text for headers */
+    border-bottom: 2px solid #444;
+    /* Subtle border for separation */
+}
+
+tr:nth-child(even) {
+    background-color: #333;
+    /* Slightly lighter for even rows */
+}
+
+tr:hover {
+    background-color: #3a3a4b;
+    /* Highlight row on hover */
+    transition: background-color 0.3s ease;
+    /* Smooth hover effect */
+}
+
+td {
+    border-bottom: 1px solid #444;
+    /* Subtle border between rows */
+}
+
+td:last-child {
+    text-align: right;
+    /* Align the last column to the right */
+}
+
+.home_container {
+    width: 100%;
+    display: flex;
+    /* Enable Flexbox */
+    flex-direction: column;
+    /* Stack items vertically */
+    justify-content: center;
+    /* Center items vertically */
+    align-items: center;
+    /* Center items horizontally */
+    min-height: calc(100vh - 60px);
+    /* Adjust height to account for the nav bar */
+    padding: 20px;
+    box-sizing: border-box;
+    /* Include padding in width/height calculations */
+}
+
+
+/* Table controls styles */
+.table_controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    font-size: 16px;
+    color: #e0e0e0;
+    width: 100%;
+    gap: 20px;
+}
+
+.table_controls .rows-per-page-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#rows_per_page {
+    background-color: #333;
+    color: #e0e0e0;
+    padding: 5px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+#pagination {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 1 1 auto;
+}
+
+/* Filter container styles */
+.filter {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    /* Space between input and button */
+    width: 100%;
+    /* Match the width of the table */
+    flex: 1 1 50%;
+    max-width: 50%;
+}
+
+/* Filter input styles */
+.filter input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #333;
+    /* Subtle border */
+    border-radius: 5px;
+    background-color: #333;
+    /* Dark background */
+    color: #e0e0e0;
+    /* Light text */
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.filter input:focus {
+    border-color: #fff;
+    /* Highlight border on focus */
+    outline: none;
+    /* Remove default focus outline */
+}
+
+/* Filter button styles */
+.filter button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    /* Dark button background */
+    color: #e0e0e0;
+    /* Light text */
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.filter button:hover {
+    background-color: #555;
+    /* Slightly lighter on hover */
+    color: #fff;
+    /* Brighten text on hover */
+}
+
+/* Table header container */
+.table_header {
+    display: flex;
+    justify-content: space-between;
+    /* Align table name and filter on opposite sides */
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+    /* Full width of the table container */
+}
+
+.table_header .right-action {
+    margin-left: 20px;
+}
+
+/* Table name styles */
+.table_name {
+    width: 90%;
+    /* Match the table_container width */
+    margin: 40px 0 0 0;
+    /* Add space from the top */
+    display: flex;
+    justify-content: flex-start;
+    /* Align to the left */
+}
+
+.table_name h1 {
+    font-size: 30px;
+    font-weight: bold;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+    padding-bottom: 20px;
+}
+
+/* Simple left-side menu */
+.side_menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 100vh;
+    background: #444;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Center vertically */
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+    z-index: 20;
+    transition: width 0.3s cubic-bezier(.4, 2, .6, 1);
+    overflow-x: hidden;
+    padding-top: 0;
+}
+
+.side_menu button {
+    background: none;
+    border: none;
+    color: #e0e0e0;
+    padding: 18px 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, font-size 0.3s;
+    position: relative;
+    min-height: 56px;
+}
+
+.side_menu button i {
+    font-size: 28px;
+    /* Larger icons */
+    color: #fff;
+    transition: color 0.2s, font-size 0.3s;
+    margin-right: 0;
+}
+
+.side_menu button span {
+    opacity: 0;
+    margin-left: 0;
+    font-size: 16px;
+    white-space: nowrap;
+    color: #e0e0e0;
+    transition: opacity 0.2s, margin-left 0.3s;
+}
+
+/* Expand menu on hover */
+.side_menu:hover {
+    width: 180px;
+}
+
+.side_menu:hover button {
+    justify-content: flex-start;
+    font-size: 16px;
+    /* Show text */
+    padding-left: 18px;
+}
+
+.side_menu:hover button i {
+    font-size: 28px;
+    margin-right: 16px;
+}
+
+.side_menu:hover button span {
+    opacity: 1;
+    margin-left: 4px;
+}
+
+/* Optional: highlight on hover */
+.side_menu button:hover,
+.side_menu button:focus {
+    background: #333;
+    color: #fff;
+}
+
+/* Chart.js specific styles */
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.chartjs-render-monitor {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+
+.summary {
+    display: flex;
+    gap: 60px;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    justify-content: flex-start;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 1;
+    width: 91.5%;
+}
+
+.summary-chart {
+    flex: 1 1 0;
+    background: #444;
+    border-radius: 12px;
+    padding: 16px;
+    min-width: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+    max-width: 350px;
+}
+
+.chart-legend-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    justify-content: flex-start;
+    position: relative;
+}
+
+.chart-legend-wrap h1 {
+    width: 100%;
+    text-align: center;
+    margin: 0 0 18px 0;
+    font-size: 1.2rem;
+    color: #e0e0e0;
+    font-weight: bold;
+    position: static;
+    /* Remove absolute positioning */
+    top: unset;
+    left: unset;
+}
+
+.chart-legend-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+    justify-content: center;
+}
+
+.chart-legend-row canvas {
+    width: 120px !important;
+    height: 120px !important;
+    max-width: 120px;
+    max-height: 120px;
+    display: block;
+}
+
+.chart-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 8px;
+    justify-content: center;
+}
+
+.chart-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    color: #e0e0e0;
+}
+
+.chart-legend-color {
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.product-link {
+    color: #ffb300;
+    background: rgba(255, 179, 0, 0.08);
+    padding: 4px 12px;
+    border-radius: 16px;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.05em;
+    box-shadow: 0 1px 4px rgba(255, 179, 0, 0.08);
+    transition:
+        color 0.2s,
+        background 0.2s,
+        box-shadow 0.2s,
+        transform 0.1s;
+    display: inline-block;
+    border: 1px solid transparent;
+}
+
+.product-link:hover {
+    color: #fff;
+    background: #ffb300;
+    box-shadow: 0 2px 8px rgba(255, 179, 0, 0.18);
+    transform: translateY(-2px) scale(1.04);
+    border: 1px solid #fff3cd;
+    text-decoration: none;
+}
+
+.drawer {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 400px;
+    height: 100%;
+    background: #222;
+    color: #fff;
+    box-shadow: -2px 0 24px rgba(0, 0, 0, 0.25);
+    transition: right 0.3s;
+    z-index: 9999;
+    padding: 36px 28px 24px 28px;
+    overflow-y: auto;
+    border-top-left-radius: 18px;
+    border-bottom-left-radius: 18px;
+    padding: 20px;
+}
+
+.drawer.open {
+    right: 0;
+}
+
+.drawer-close {
+    position: absolute;
+    top: 2px;
+    /* Move higher */
+    right: 18px;
+    /* Move more to the right */
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2.2rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.drawer-close:hover {
+    opacity: 1;
+}
+
+.drawer-product-img {
+    display: block;
+    width: 100%;
+    height: 30vh;
+    /* 50% of the viewport height */
+    max-height: 30vh;
+    /* Ensures it doesn't exceed 50% of viewport */
+    margin: 0 0 18px 0;
+    border-radius: 14px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+    object-fit: cover;
+    background: #444;
+    border: none;
+    filter: brightness(0.97) contrast(1.08);
+    transition: box-shadow 0.2s, filter 0.2s;
+}
+
+.drawer-product-img:hover {
+    box-shadow: 0 8px 32px rgba(255, 179, 0, 0.18);
+    filter: brightness(1) contrast(1.12);
+}
+
+.drawer-details-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: #444;
+    border-radius: 12px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+}
+
+.drawer-details-list li {
+    font-size: 1.08em;
+    border-bottom: 1px solid #222;
+    padding: 10px 0 6px 0;
+    line-height: 1.4;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    /* Stack label and value vertically */
+    align-items: flex-start;
+    /* Align to left, or use center for centered text */
+    gap: 2px;
+}
+
+.drawer-details-list li strong {
+    font-size: 0.98em;
+    color: #ffb300;
+    margin-bottom: 2px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+.drawer-details-list li span,
+.drawer-details-list li input {
+    font-size: 1.13em;
+    color: #fff;
+    font-weight: 500;
+    word-break: break-word;
+}
+
+.drawer h2 {
+    margin-top: 0;
+    margin-bottom: 18px;
+    font-size: 1.4em;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: #ffb300;
+    text-shadow: 0 2px 8px #23233a88;
+}
+
+#pagination button.active-page {
+    background: #ffb300;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    cursor: default;
+}
+
+#pagination button {
+    margin: 0 2px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background: #333;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#pagination button:not(.active-page):hover {
+    background: #e3e3e3;
+}

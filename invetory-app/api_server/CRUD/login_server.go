@@ -67,6 +67,12 @@ func login(c *gin.Context) {
 	c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid username or password"})
 }
 
+func homeDetails(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Welcome to the home details page!",
+	})
+}
+
 func main() {
 	router := gin.Default()
 
@@ -76,6 +82,8 @@ func main() {
 	router.GET("/appInfo", appInfo)
 
 	router.POST("/login", login)
+
+	router.GET("/homeDetails", homeDetails)
 
 	router.Run(":8080")
 }

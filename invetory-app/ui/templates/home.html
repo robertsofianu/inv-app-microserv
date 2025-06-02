@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invetory</title>
+    <link rel="stylesheet" href="static/home.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+
+<body>
+    <div class="nav_bar">
+        <div class="nav_links" id="nav-links">
+            <button>Login</button>
+            <button>Sign Up</button>
+        </div>
+    </div>
+
+    <div class="side_menu">
+        <button><i class="fas fa-home"></i> Acasa</button>
+        <button onclick="window.location.href='https://rsofianuinventoryapp.pythonanywhere.com/products'"><i
+                class="fas fa-cubes"></i>
+            Produse</button>
+        <button><i class="fas fa-chart-bar"></i> Date firma</button>
+        <button><i class="fas fa-truck"></i> Furnizori</button>
+        <button><i class="fas fa-cog"></i> Setari</button>
+    </div>
+
+    <div class="home_container">
+        <div class="table_name">
+            <h1>Nota intrare receptie</h1>
+        </div>
+
+        <div class="summary">
+            <div class="summary-chart">
+                <div class="chart-legend-wrap">
+                    <h1>Cei mai importanți furnizori</h1>
+                    <div class="chart-legend-row">
+                        <canvas id="providersChart"></canvas>
+                        <div class="chart-legend" id="providersLegend"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="summary-chart">
+                <div class="chart-legend-wrap">
+                    <h1>Top produse</h1>
+                    <div class="chart-legend-row">
+                        <canvas id="productsChart"></canvas>
+                        <div class="chart-legend" id="productsLegend"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="summary-chart">
+                <div class="chart-legend-wrap">
+                    <h1>Total vânzări</h1>
+                    <div class="chart-legend-row">
+                        <canvas id="salesChart"></canvas>
+                        <div class="chart-legend" id="salesLegend"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="summary-chart">
+                <div class="chart-legend-wrap">
+                    <h1>Total cheltuieli</h1>
+                    <div class="chart-legend-row">
+                        <canvas id="purchasesChart"></canvas>
+                        <div class="chart-legend" id="purchasesLegend"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table_container">
+            <div class="table_header">
+                <div class="filter">
+                    <input type="text" placeholder="Cauta dupa parametru..." id="filter_input">
+                    <button>Search</button>
+                </div>
+                <!-- Update the right-action button to use the correct relative path -->
+                <button class="right-action"
+                    onclick="window.location.href='https://rsofianuinventoryapp.pythonanywhere.com/createNir'">
+                    <i class="fas fa-plus"></i> Creare nota intrare receptie
+                </button>
+            </div>
+
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Numar nota intrare receptie</th>
+                    <th>Data nota intrare receptie</th>
+                    <th>Numar Factura</th>
+                    <th>Data factura</th>
+                    <th>Nume furnizor</th>
+                    <th>Total</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>12345</td>
+                    <td>2023-10-01</td>
+                    <td>54321</td>
+                    <td>2023-09-30</td>
+                    <td>Furnizor A</td>
+                    <td>1000.00</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>12346</td>
+                    <td>2023-10-02</td>
+                    <td>54322</td>
+                    <td>2023-09-29</td>
+                    <td>Furnizor B</td>
+                    <td>2000.00</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>12347</td>
+                    <td>2023-10-03</td>
+                    <td>54323</td>
+                    <td>2023-09-28</td>
+                    <td>Furnizor C</td>
+                    <td>1500.00</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>12348</td>
+                    <td>2023-10-04</td>
+                    <td>54324</td>
+                    <td>2023-09-27</td>
+                    <td>Furnizor D</td>
+                    <td>2500.00</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>12349</td>
+                    <td>2023-10-05</td>
+                    <td>54325</td>
+                    <td>2023-09-26</td>
+                    <td>Furnizor E</td>
+                    <td>3000.00</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>12350</td>
+                    <td>2023-10-06</td>
+                    <td>54326</td>
+                    <td>2023-09-25</td>
+                    <td>Furnizor F</td>
+                    <td>3500.00</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>12351</td>
+                    <td>2023-10-07</td>
+                    <td>54327</td>
+                    <td>2023-09-24</td>
+                    <td>Furnizor G</td>
+                    <td>4000.00</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>12352</td>
+                    <td>2023-10-08</td>
+                    <td>54328</td>
+                    <td>2023-09-23</td>
+                    <td>Furnizor H</td>
+                    <td>4500.00</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>12353</td>
+                    <td>2023-10-09</td>
+                    <td>54329</td>
+                    <td>2023-09-22</td>
+                    <td>Furnizor I</td>
+                    <td>5000.00</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>12354</td>
+                    <td>2023-10-10</td>
+                    <td>54330</td>
+                    <td>2023-09-21</td>
+                    <td>Furnizor J</td>
+                    <td>5500.00</td>
+                </tr>
+            </table>
+            <div class="table_controls">
+                <span id="total_items">Total Items: 0</span>
+                <label for="rows_per_page">Rows per page:</label>
+                <select id="rows_per_page">
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Chart.js at the end of <body> if not already present -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const chartConfigs = [
+            {
+                canvasId: 'providersChart',
+                legendId: 'providersLegend',
+                title: 'Cei mai importanți furnizori'
+            },
+            {
+                canvasId: 'productsChart',
+                legendId: 'productsLegend',
+                title: 'Top produse'
+            },
+            {
+                canvasId: 'salesChart',
+                legendId: 'salesLegend',
+                title: 'Total vânzări'
+            },
+            {
+                canvasId: 'purchasesChart',
+                legendId: 'purchasesLegend',
+                title: 'Total cheltuieli'
+            }
+        ];
+
+        // Plugin for center text
+        const centerTextPlugin = {
+            id: 'centerText',
+            afterDraw(chart) {
+                if (chart.config.options.elements && chart.config.options.elements.center) {
+                    const ctx = chart.ctx;
+                    const centerConfig = chart.config.options.elements.center;
+                    ctx.save();
+                    ctx.font = `${centerConfig.fontSize || 24}px ${centerConfig.fontFamily || 'Arial'}`;
+                    ctx.fillStyle = centerConfig.fontColor || '#fff';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    const centerX = (chart.chartArea.left + chart.chartArea.right) / 2;
+                    const centerY = (chart.chartArea.top + chart.chartArea.bottom) / 2;
+                    ctx.fillText(centerConfig.text, centerX, centerY);
+                    ctx.restore();
+                }
+            }
+        };
+        if (window.Chart) Chart.register(centerTextPlugin);
+
+        fetch('https://inv-app-microserv-l15b.onrender.com/home/summary')
+            .then(res => res.json())
+            .then(data => {
+                // Map API response to chartConfigs
+                const apiMap = [
+                    { key: 'providers', labelKey: 'unit', dataKey: 'total' },
+                    { key: 'products', labelKey: 'unit', dataKey: 'total' },
+                    { key: 'sales', labelKey: 'unit', dataKey: 'total' },
+                    { key: 'purchases', labelKey: 'unit', dataKey: 'total' }
+                ];
+
+                chartConfigs.forEach((cfg, idx) => {
+                    const api = data[apiMap[idx].key];
+                    const labels = api.unit;
+                    const values = api.total;
+                    // Generate colors if not present
+                    const colors = [
+                        '#ff6a5e', '#ff9a44', '#2c5364', '#6a82fb', '#4dd599', '#f7b731', '#8854d0', '#20bf6b'
+                    ].slice(0, labels.length);
+
+                    const total = values.reduce((a, b) => a + b, 0);
+
+                    new Chart(document.getElementById(cfg.canvasId), {
+                        type: 'doughnut',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                data: values,
+                                backgroundColor: colors
+                            }]
+                        },
+                        options: {
+                            plugins: { legend: { display: false } },
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            cutout: '70%',
+                            elements: {
+                                center: {
+                                    text: total.toString(),
+                                    fontColor: '#fff',
+                                    fontSize: 24
+                                }
+                            }
+                        }
+                    });
+
+                    // Custom legend
+                    const legendContainer = document.getElementById(cfg.legendId);
+                    legendContainer.innerHTML = '';
+                    labels.forEach((label, i) => {
+                        const color = colors[i];
+                        const value = values[i];
+                        const item = document.createElement('div');
+                        item.className = 'chart-legend-item';
+                        item.innerHTML = `<span class="chart-legend-color" style="background:${color}"></span>${label} (${value})`;
+                        legendContainer.appendChild(item);
+                    });
+                });
+            })
+            .catch(err => {
+                console.error('Failed to fetch summary data:', err);
+            });
+
+        // Table population from API
+        fetch('https://inv-app-microserv-l15b.onrender.com/home/details')
+            .then(res => res.json())
+            .then(data => {
+                const table = document.querySelector('.table_container table');
+                // Remove all rows except the header
+                while (table.rows.length > 1) {
+                    table.deleteRow(1);
+                }
+                // Add new rows from API data
+                data.forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                <td>${row.id}</td>
+                <td>${row.numberNIR}</td>
+                <td>${row.dateNIR}</td>
+                <td>${row.numberInvoice}</td>
+                <td>${row.dateInvoice}</td>
+                <td>${row.provider}</td>
+                <td>${row.total}</td>
+            `;
+                    table.appendChild(tr);
+                });
+                // Update total items
+                const totalItems = document.getElementById('total_items');
+                if (totalItems) totalItems.textContent = `Total Items: ${data.length}`;
+            })
+            .catch(err => {
+                console.error('Failed to fetch table data:', err);
+            });
+    </script>
+</body>
+
+</html>

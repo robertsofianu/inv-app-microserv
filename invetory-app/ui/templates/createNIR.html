@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="static/createNIR.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+
+<body>
+    <div class="nav_bar">
+        <div class="nav_links" id="nav-links">
+            <button>Login</button>
+            <button>Sign Up</button>
+        </div>
+    </div>
+
+    <div class="side_menu">
+        <button onclick="window.location.href='../home/home.html'"><i class="fas fa-home"></i> Acasa</button>
+        <button><i class="fas fa-chart-bar"></i> Date firma</button>
+        <button><i class="fas fa-truck"></i> Furnizori</button>
+        <button><i class="fas fa-cog"></i> Setari</button>
+    </div>
+
+    <!-- Title at top left -->
+    <div class="nir-page-title">
+        <h1>Creare nota intrare recepție</h1>
+    </div>
+
+    <div class="nir-main-container">
+        <div class="nir-options">
+            <button id="btn-detalii" class="nir-option-btn active">Detalii</button>
+            <button id="btn-produse" class="nir-option-btn">Adaugă produse</button>
+        </div>
+        <div class="nir-content">
+            <div id="nir-detalii" class="nir-content-pane active">
+
+                <div class="details_container">
+                    <h2>Detalii nota intrare receptie</h2>
+                    <form id="nir-form">
+                        <label>Compania <input type="text" name="company"></label><br>
+                        <label>Adresa <input type="text" name="adress"></label><br>
+
+                        <div class="form-row">
+                            <label>Numar NIR <input type="text" name="nir_number"></label>
+                            <label>Numar factura <input type="text" name="invoice_number"></label>
+                        </div>
+                        <div class="form-row">
+                            <label>Data NIR <input type="date" name="nir_date"></label>
+                            <label>Data factura <input type="date" name="invoice_date"></label>
+                        </div>
+
+                        <label>Nume furnizor <input type="text" name="provider"></label><br>
+                        <label>Delegat <input type="text" name="delegat"></label><br>
+                        <button type="button" id="submit-nir">Trimite NIR</button>
+                    </form>
+                </div>
+
+                <div class="table_container">
+                    <h2>Produse</h2>
+                    <table id="my-table">
+                        <thead>
+                            <tr>
+                                <th>Produs</th>
+                                <th>Cantitate</th>
+                                <th>Actiuni</th>
+                            </tr>
+                        </thead>
+                        <tbody id="product-list">
+                            <!-- Product rows will be added here dynamically -->
+                        </tbody>
+                    </table>
+                    <button id="export-csv">Export CSV</button>
+                </div>
+
+            </div>
+
+            <div id="nir-produse" class="nir-content-pane">
+                <h2>Adaugă produse</h2>
+                <label>Produs <input type="text" name="product"></label><br>
+                <label>Cantitatea <input type="text" name="quantity"></label><br>
+                <button>+ Adaugă produs</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // filepath: /Users/sofianurobert/Projects/inv-app-microserv/invetory-app/ui/createNIR/createNIR.html
+        document.getElementById('btn-detalii').onclick = function () {
+            document.getElementById('nir-detalii').classList.add('active');
+            document.getElementById('nir-produse').classList.remove('active');
+            this.classList.add('active');
+            document.getElementById('btn-produse').classList.remove('active');
+        };
+        document.getElementById('btn-produse').onclick = function () {
+            document.getElementById('nir-detalii').classList.remove('active');
+            document.getElementById('nir-produse').classList.add('active');
+            this.classList.add('active');
+            document.getElementById('btn-detalii').classList.remove('active');
+        };
+
+        document.getElementById('submit-nir').onclick = async function () {
+            const form = document.getElementById('nir-form');
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            const res = await fetch('http://localhost:8082/nir/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await res.json();
+        };
+
+        document.getElementById('export-csv').onclick = function () {
+            const table = document.getElementById('my-table');
+            let csv = [];
+            for (let row of table.rows) {
+                let rowData = [];
+                for (let cell of row.cells) {
+                    // Escape quotes
+                    rowData.push('"' + cell.innerText.replace(/"/g, '""') + '"');
+                }
+                csv.push(rowData.join(","));
+            }
+            const csvContent = csv.join("\n");
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = "export.csv";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        };
+    </script>
+</body>
+
+
+</html>
